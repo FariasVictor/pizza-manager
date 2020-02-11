@@ -9,9 +9,9 @@ import javax.persistence.*;
 
 
 @Data
+@Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity
 public class Pizza {
 
     @Id
@@ -19,7 +19,7 @@ public class Pizza {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     public Long id;
 
-    @Column(nullable = false)
+    @Enumerated(value = EnumType.STRING)
     public Flavor flavor;
 
     @ManyToOne
