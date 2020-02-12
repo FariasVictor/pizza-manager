@@ -1,6 +1,6 @@
 package com.invillia.pizzaapp.model;
 
-import jdk.internal.jline.internal.Nullable;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -14,9 +14,9 @@ import java.util.List;
 
 
 @Data
+@Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity
 public class Demand {
 
     @Id
@@ -29,7 +29,7 @@ public class Demand {
     private Client client;
 
     @Column(nullable = false)
-    private BigDecimal debt;
+    private BigDecimal debt= BigDecimal.valueOf(0);
 
     @CreationTimestamp
     private LocalDateTime createdAt;
@@ -37,7 +37,8 @@ public class Demand {
     @UpdateTimestamp
     private LocalDateTime updatedAt;
 
-    @OneToMany(mappedBy = "demand")
+    @OneToMany(mappedBy = "demand", cascade = CascadeType.ALL)
+    @JsonIgnore
     private List<Pizza> pizzas;
 
 }

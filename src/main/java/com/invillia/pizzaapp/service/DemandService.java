@@ -1,9 +1,11 @@
 package com.invillia.pizzaapp.service;
 
 import com.invillia.pizzaapp.mapper.DemandMapper;
+import com.invillia.pizzaapp.model.Client;
 import com.invillia.pizzaapp.model.Demand;
 import com.invillia.pizzaapp.model.request.DemandRequest;
 import com.invillia.pizzaapp.model.response.DemandResponse;
+import com.invillia.pizzaapp.repository.ClientRepository;
 import com.invillia.pizzaapp.repository.DemandRepository;
 import org.springframework.stereotype.Service;
 
@@ -16,15 +18,19 @@ public class DemandService {
 
     private DemandRepository demandRepository;
     private DemandMapper demandMapper;
+    private ClientRepository clientRepository;
 
-    public DemandService(DemandRepository demandRepository, DemandMapper demandMapper) {
+    public DemandService(DemandRepository demandRepository, DemandMapper demandMapper, ClientRepository clientRepository) {
         this.demandRepository = demandRepository;
         this.demandMapper = demandMapper;
+        this.clientRepository = clientRepository;
     }
 
     @Transactional
     public Long insert(DemandRequest demandRequest) {
-        Demand demand = demandMapper.demandRequestToDemand(demandRequest);
+        Client client= clientRepository.findById(demandRequest.getClientId()).orElseThrow(EntityNotFoundException::new);
+        Demand demand = new Demand();
+        demand.setClient(client);
         return demandRepository.save(demand).getId();
     }
 
@@ -40,7 +46,8 @@ public class DemandService {
     @Transactional
     public void updateClient(Long id, DemandRequest demandRequest) {
         Demand demand = demandRepository.findById(id).orElseThrow(EntityNotFoundException::new);
-        demandMapper.updateDemandByDemandRequest(demand, demandRequest);
+        Client client= clientRepository.findById(demandRequest.getClientId()).orElseThrow(EntityNotFoundException::new);
+        demand.setClient(client);
         demandRepository.save(demand);
     }
 

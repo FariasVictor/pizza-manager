@@ -26,10 +26,10 @@ public class Client {
     private String phone;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "client")
+    @OneToMany(mappedBy = "client", cascade = CascadeType.ALL)
     private List<Address> addresses;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "client")
+    @OneToMany(mappedBy = "client", cascade = CascadeType.ALL)
     private List<Demand> demands;
 }

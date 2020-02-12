@@ -35,5 +35,18 @@ public class DemandController {
        return demandService.findAll();
     }
 
+    @PutMapping("/{id}")
+    public HttpEntity<?> updateClient(@PathVariable Long id,@Valid @RequestBody DemandRequest demandRequest){
+        demandService.updateClient(id, demandRequest);
+
+        return ResponseEntity.noContent().build();
+    }
+
+    @DeleteMapping("/{id}")
+    public HttpEntity<?> delete(@PathVariable Long id){
+        demandService.delete(id);
+
+        return ResponseEntity.noContent().build();
+    }
 
 }

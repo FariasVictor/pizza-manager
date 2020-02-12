@@ -23,14 +23,15 @@ public class PizzaService {
     private PizzaMapper pizzaMapper;
     private DemandRepository demandRepository;
 
-    public PizzaService(PizzaRepository pizzaRepository, DemandRepository demandRepository) {
+    public PizzaService(PizzaRepository pizzaRepository, PizzaMapper pizzaMapper, DemandRepository demandRepository) {
         this.pizzaRepository = pizzaRepository;
+        this.pizzaMapper = pizzaMapper;
         this.demandRepository = demandRepository;
     }
 
     @Transactional
     public Long insert(PizzaRequest pizzaRequest) {
-        if (validateFlavorEnum(pizzaRequest.getFlavor())) {
+        if (!validateFlavorEnum(pizzaRequest.getFlavor())) {
             throw new InvalidFlavorException();
         }
         Demand demand = demandRepository.findById(pizzaRequest.getDemandId()).orElseThrow(EntityNotFoundException::new);
@@ -73,9 +74,10 @@ public class PizzaService {
     public boolean validateFlavorEnum(String flavor) {
         for (Flavor fl : Flavor.values()) {
             if (fl.name().equals(flavor)) {
-                return false;
+                return true;
             }
         }
-        return true;
+        return false;
     }
+
 }

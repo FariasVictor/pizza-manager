@@ -11,11 +11,11 @@ import java.util.List;
 @Component
 public class DemandMapper {
 
-    public Demand demandRequestToDemand(DemandRequest demandRequest){
-        Demand demand = new Demand();
-        demand.setClient(demandRequest.getClient());
-        return demand;
-    }
+//    public Demand demandRequestToDemand(DemandRequest demandRequest){
+//        Demand demand = new Demand();
+//        demand.setClient(demandRequest.getClient());
+//        return demand;
+//    }
 
     public List<DemandResponse> demandToDemandResponse(List<Demand> demands){
         List<DemandResponse> demandResponses= new ArrayList<>();
@@ -33,7 +33,7 @@ public class DemandMapper {
         return demandResponse;
     }
 
-    public void updateDemandByDemandRequest(Demand demand, DemandRequest demandRequest){
-        demand.setClient(demandRequest.getClient());
-    }
+//    public void updateDemandByDemandRequest(Demand demand, DemandRequest demandRequest){
+//        demand.setClient(demandRequest.getClientId());
+//    }
 }
