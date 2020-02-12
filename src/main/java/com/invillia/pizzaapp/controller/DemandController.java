@@ -35,6 +35,11 @@ public class DemandController {
        return demandService.findAll();
     }
 
+    @GetMapping("{id}")
+    public DemandResponse findById(@PathVariable Long id){
+        return demandService.findById(id);
+    }
+
     @PutMapping("/{id}")
     public HttpEntity<?> updateClient(@PathVariable Long id,@Valid @RequestBody DemandRequest demandRequest){
         demandService.updateClient(id, demandRequest);
