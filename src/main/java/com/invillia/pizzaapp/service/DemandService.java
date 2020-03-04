@@ -29,6 +29,7 @@ public class DemandService {
     @Transactional
     public ObjectId insert(DemandRequest demandRequest) {
         Demand demand = demandMapper.demandRequestToDemand(demandRequest);
+        initialDebtCalculator(demand);
         return demandRepository.save(demand).getId();
     }
 
@@ -54,5 +55,8 @@ public class DemandService {
         demandMapper.updateDemandByDemandRequest(demand, demandRequest);
         demandRepository.save(demand);
     }
+
+    public void initialDebtCalculator(Demand demand) {
+        demand.setDebt(BigDecimal.valueOf(demand.getPizzas().size() * 20));
     }
 }
