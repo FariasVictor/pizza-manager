@@ -63,6 +63,16 @@ public class DemandService {
         return debt;
     }
 
+    @Transactional
+    public void payment(String id, BigDecimal value) {
+        Demand demand = demandRepository.findById(id).orElseThrow(EntityNotFoundException::new);
+        if (value.compareTo(demand.getDebt())>0){
+            throw new InvalidValueException();
+        }
+        demand.setDebt(demand.getDebt().subtract(value));
+        demandRepository.save(demand);
+    }
+
     public void initialDebtCalculator(Demand demand) {
         demand.setDebt(BigDecimal.valueOf(demand.getPizzas().size() * 20));
     }

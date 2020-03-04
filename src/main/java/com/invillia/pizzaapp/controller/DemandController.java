@@ -48,6 +48,12 @@ public class DemandController {
         return ResponseEntity.noContent().build();
     }
 
+    @PutMapping("/{id}/payment")
+    public HttpEntity<?> payment(@PathVariable String id, @Valid @RequestBody PaymentRequest paymentRequest) {
+        demandService.payment(id,paymentRequest.getValue());
+        return ResponseEntity.noContent().build();
+    }
+
     @DeleteMapping("/{id}")
     public HttpEntity<?> delete(@PathVariable String id) {
         demandService.delete(id);
