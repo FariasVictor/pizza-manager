@@ -1,14 +1,15 @@
 spring:
-  datasource:
-    url: jdbc:postgresql://localhost:5432/pizzas
-    username: postgres
-    password: postgres
-  jpa:
-    show-sql: true
-    open-in-view: false
-    database-platform: org.hibernate.dialect.PostgreSQL10Dialect
-    properties:
-      hibernate:
-        format_sql: true
-    hibernate:
-      ddl-auto: update
+  data:
+    mongodb:
+      uri: mongodb://localhost/Pizzas
+      port: 27017
+      username:
+      password:
+logging:
+  level:
+    org:
+      springframework:
+        data:
+          mongodb:
+            core:
+              MongoTemplate: DEBUG

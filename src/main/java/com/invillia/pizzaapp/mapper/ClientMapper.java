@@ -23,8 +23,7 @@ public class ClientMapper {
 
     public ClientResponse clientToClientResponse(Client client){
         ClientResponse clientResponse = new ClientResponse();
-
-        clientResponse.setId(client.getId());
+        clientResponse.setId(client.getId().toString());
         clientResponse.setName(client.getName());
         clientResponse.setPhone(client.getPhone());
 
@@ -43,13 +42,5 @@ public class ClientMapper {
     public void updateClientByClientRequest(Client client, ClientRequest clientRequest){
         client.setPhone(clientRequest.getPhone());
         client.setName(clientRequest.getName());
-    }
-
-    public Client clientResponseToClient(ClientResponse clientResponse){
-        Client client = new Client();
-        client.setId(clientResponse.getId());
-        client.setName(clientResponse.getName());
-        client.setPhone(clientResponse.getPhone());
-        return client;
     }
 }

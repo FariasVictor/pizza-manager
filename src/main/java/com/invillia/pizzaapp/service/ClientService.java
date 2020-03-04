@@ -5,6 +5,7 @@ import com.invillia.pizzaapp.model.Client;
 import com.invillia.pizzaapp.model.request.ClientRequest;
 import com.invillia.pizzaapp.model.response.ClientResponse;
 import com.invillia.pizzaapp.repository.ClientRepository;
+import org.bson.types.ObjectId;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
@@ -23,7 +24,7 @@ public class ClientService {
     }
 
     @Transactional
-    public Long insert(ClientRequest clientRequest) {
+    public ObjectId insert(ClientRequest clientRequest) {
         Client client = clientMapper.clientRequestToClient(clientRequest);
         client = clientRepository.save(client);
         return client.getId();
@@ -33,21 +34,21 @@ public class ClientService {
         return clientMapper.clientToClientResponse(clientRepository.findAll());
     }
 
-    public ClientResponse findById(Long id) {
+    public ClientResponse findById(String id) {
         return clientMapper.clientToClientResponse(
                 clientRepository.findById(id).orElseThrow(EntityNotFoundException::new)
         );
     }
 
     @Transactional
-    public void update(Long id, ClientRequest clientRequest){
+    public void update(String id, ClientRequest clientRequest){
         Client client = clientRepository.findById(id).orElseThrow(EntityNotFoundException::new);
         clientMapper.updateClientByClientRequest(client,clientRequest);
         clientRepository.save(client);
     }
 
     @Transactional
-    public void delete(Long id){
+    public void delete(String id){
         clientRepository.delete(
                 clientRepository.findById(id).orElseThrow(EntityNotFoundException::new)
         );

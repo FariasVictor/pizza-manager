@@ -3,6 +3,7 @@ package com.invillia.pizzaapp.controller;
 import com.invillia.pizzaapp.model.request.ClientRequest;
 import com.invillia.pizzaapp.model.response.ClientResponse;
 import com.invillia.pizzaapp.service.ClientService;
+import org.bson.types.ObjectId;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -29,27 +30,27 @@ public class ClientController {
     }
 
     @GetMapping("/{id}")
-    public ClientResponse findById(@PathVariable Long id){
+    public ClientResponse findById(@PathVariable String id){
         return clientService.findById(id);
     }
 
     @PostMapping
     public HttpEntity<?> insert(@Valid @RequestBody ClientRequest clientRequest){
-        Long id = clientService.insert(clientRequest);
-        URI location= ServletUriComponentsBuilder.fromCurrentContextPath().path("/{id}").build(id);
+        ObjectId id = clientService.insert(clientRequest);
+        URI location= ServletUriComponentsBuilder.fromCurrentContextPath().path("/clients/{id}").build(id);
 
         return ResponseEntity.created(location).build();
     }
 
     @PutMapping("/{id}")
-    public HttpEntity<?> update(@PathVariable Long id, @Valid @RequestBody ClientRequest clientRequest){
+    public HttpEntity<?> update(@PathVariable String id, @Valid @RequestBody ClientRequest clientRequest){
         clientService.update(id,clientRequest);
 
         return ResponseEntity.noContent().build();
     }
 
     @DeleteMapping("/{id}")
-    public HttpEntity<?> delete(@PathVariable Long id){
+    public HttpEntity<?> delete(@PathVariable String id){
         clientService.delete(id);
 
         return ResponseEntity.noContent().build();
