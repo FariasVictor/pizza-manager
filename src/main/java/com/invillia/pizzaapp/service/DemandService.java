@@ -52,8 +52,15 @@ public class DemandService {
     @Transactional
     public void update(String id, DemandRequest demandRequest) {
         Demand demand = demandRepository.findById(id).orElseThrow(EntityNotFoundException::new);
+        demand.setDebt(calculateTotalDebt(demandRequest.getPizzas().size(), demand.getPizzas().size(),demand.getDebt()));
         demandMapper.updateDemandByDemandRequest(demand, demandRequest);
         demandRepository.save(demand);
+    }
+
+    public BigDecimal calculateTotalDebt(int newPizzaCount, int oldPizzaCount, BigDecimal oldDebt) {
+        BigDecimal debt;
+        debt = oldDebt.add(BigDecimal.valueOf((newPizzaCount-oldPizzaCount)*20));
+        return debt;
     }
 
     public void initialDebtCalculator(Demand demand) {
