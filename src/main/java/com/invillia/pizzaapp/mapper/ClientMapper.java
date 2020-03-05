@@ -25,7 +25,8 @@ public class ClientMapper {
         ClientResponse clientResponse = new ClientResponse();
         clientResponse.setId(client.getId().toString());
         clientResponse.setName(client.getName());
-        clientResponse.setPhone(client.getPhone());
+        clientResponse.setPhone1(client.getPhone1());
+        clientResponse.setPhone2(client.getPhone2());
 
         return clientResponse;
     }
@@ -34,13 +35,15 @@ public class ClientMapper {
         Client client= new Client();
 
         client.setName(clientRequest.getName());
-        client.setPhone(clientRequest.getPhone());
+        client.setPhone1(clientRequest.getPhone1());
+        client.setPhone2(clientRequest.getPhone2());
 
         return client;
     }
 
     public void updateClientByClientRequest(Client client, ClientRequest clientRequest){
-        client.setPhone(clientRequest.getPhone());
+        client.setPhone1(clientRequest.getPhone1());
+        client.setPhone2(clientRequest.getPhone2());
         client.setName(clientRequest.getName());
     }
 }

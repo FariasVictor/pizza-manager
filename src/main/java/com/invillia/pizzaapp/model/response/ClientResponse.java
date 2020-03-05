@@ -17,10 +17,12 @@ public class ClientResponse {
 
     private String name;
 
-    private List<String> phone;
+    private String phone1;
+
+    private String phone2;
 
     private List<Address> addresses;
 
-    private List <Demand> demands;
+    private List<Demand> demands;
 
 }

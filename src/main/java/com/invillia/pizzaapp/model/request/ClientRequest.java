@@ -6,7 +6,6 @@ import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.NotEmpty;
-import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -17,5 +16,8 @@ public class ClientRequest {
     private String name;
 
     @NotEmpty
-    private  List<@Length(min=11, max=16, message = "O telefone deve ter de 11 a 16 caracteres") String> phone;
+    @Length(min=11, max=16, message = "O telefone deve ter de 11 a 16 caracteres")
+    private String phone1;
+
+    private String phone2;
 }
