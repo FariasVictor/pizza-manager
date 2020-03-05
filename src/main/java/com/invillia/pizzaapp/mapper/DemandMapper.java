@@ -26,6 +26,7 @@ public class DemandMapper {
     public DemandResponse demandToDemandResponse(Demand demand) {
         DemandResponse demandResponse = new DemandResponse();
         demandResponse.setId(demand.getId().toString());
+        demandResponse.setMade(demand.getMade());
         demandResponse.setDebt(demand.getDebt());
         demandResponse.setPizzas(demand.getPizzas());
         demandResponse.setCreatedAt(demand.getCreatedAt());

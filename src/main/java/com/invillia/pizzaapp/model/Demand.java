@@ -23,6 +23,8 @@ public class Demand {
     @Id
     private ObjectId id;
 
+    private Boolean made =false;
+
     private BigDecimal debt= BigDecimal.valueOf(0);
 
     private List<Pizza> pizzas;

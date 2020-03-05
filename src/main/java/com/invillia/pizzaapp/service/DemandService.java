@@ -3,6 +3,8 @@ package com.invillia.pizzaapp.service;
 import com.invillia.pizzaapp.exception.InvalidValueException;
 import com.invillia.pizzaapp.mapper.DemandMapper;
 import com.invillia.pizzaapp.model.Demand;
+import com.invillia.pizzaapp.model.Pizza;
+import com.invillia.pizzaapp.model.PizzasToBeMade;
 import com.invillia.pizzaapp.model.request.DemandRequest;
 import com.invillia.pizzaapp.model.response.DemandResponse;
 import com.invillia.pizzaapp.repository.ClientRepository;
@@ -13,6 +15,7 @@ import org.springframework.stereotype.Service;
 import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -52,21 +55,37 @@ public class DemandService {
     @Transactional
     public void update(String id, DemandRequest demandRequest) {
         Demand demand = demandRepository.findById(id).orElseThrow(EntityNotFoundException::new);
-        demand.setDebt(calculateTotalDebt(demandRequest.getPizzas().size(), demand.getPizzas().size(),demand.getDebt()));
+        demand.setDebt(calculateTotalDebt(demandRequest.getPizzas().size(), demand.getPizzas().size(), demand.getDebt()));
         demandMapper.updateDemandByDemandRequest(demand, demandRequest);
         demandRepository.save(demand);
     }
 
+    public PizzasToBeMade pizzasToBeMade() {
+        int calabresa = 0;
+        int traditional=0;
+        List<Demand> totalToBeMade = demandRepository.findByMade(false);
+        for (Demand demand : totalToBeMade) {
+            for (Pizza pizza : demand.getPizzas()) {
+                if (pizza.getFlavor().toString().equals("CALABRESA")){
+                    calabresa++;
+                }else{
+                    traditional++;
+                }
+            }
+        }
+        return new PizzasToBeMade(calabresa,traditional);
+    }
+
     public BigDecimal calculateTotalDebt(int newPizzaCount, int oldPizzaCount, BigDecimal oldDebt) {
         BigDecimal debt;
-        debt = oldDebt.add(BigDecimal.valueOf((newPizzaCount-oldPizzaCount)*20));
+        debt = oldDebt.add(BigDecimal.valueOf((newPizzaCount - oldPizzaCount) * 20));
         return debt;
     }
 
     @Transactional
     public void payment(String id, BigDecimal value) {
         Demand demand = demandRepository.findById(id).orElseThrow(EntityNotFoundException::new);
-        if (value.compareTo(demand.getDebt())>0){
+        if (value.compareTo(demand.getDebt()) > 0) {
             throw new InvalidValueException();
         }
         demand.setDebt(demand.getDebt().subtract(value));

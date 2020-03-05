@@ -15,6 +15,7 @@ import java.util.List;
 @AllArgsConstructor
 public class DemandResponse {
     private String id;
+    private Boolean made;
     private BigDecimal debt;
     private List<Pizza> pizzas;
     private LocalDateTime createdAt;

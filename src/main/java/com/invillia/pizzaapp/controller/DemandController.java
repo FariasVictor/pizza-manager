@@ -1,5 +1,7 @@
 package com.invillia.pizzaapp.controller;
 
+import com.invillia.pizzaapp.model.Demand;
+import com.invillia.pizzaapp.model.PizzasToBeMade;
 import com.invillia.pizzaapp.model.request.DemandRequest;
 import com.invillia.pizzaapp.model.request.PaymentRequest;
 import com.invillia.pizzaapp.model.response.DemandResponse;
@@ -48,16 +50,21 @@ public class DemandController {
         return ResponseEntity.noContent().build();
     }
 
+    @DeleteMapping("/{id}")
+    public HttpEntity<?> delete(@PathVariable String id) {
+        demandService.delete(id);
+        return ResponseEntity.noContent().build();
+    }
+
     @PutMapping("/{id}/payment")
     public HttpEntity<?> payment(@PathVariable String id, @Valid @RequestBody PaymentRequest paymentRequest) {
         demandService.payment(id,paymentRequest.getValue());
         return ResponseEntity.noContent().build();
     }
 
-    @DeleteMapping("/{id}")
-    public HttpEntity<?> delete(@PathVariable String id) {
-        demandService.delete(id);
-        return ResponseEntity.noContent().build();
+    @GetMapping("/pizzas-to-be-made")
+    public PizzasToBeMade pizzasToBeMade(){
+        return demandService.pizzasToBeMade();
     }
 
 }
